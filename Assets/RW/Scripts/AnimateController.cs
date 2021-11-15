@@ -28,10 +28,21 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 public class AnimateController : MonoBehaviour
 {
     public Sprite[] spriteSet;
     public float fps;
+    public GameObject treeObject;
+    private float treeSpeed = 30f;
+
+    private void FixedUpdate()
+    {
+        if (treeObject != null)
+        {
+        treeObject.transform.Rotate(new Vector3(0f, 0f, treeSpeed * Time.fixedDeltaTime));
+        }
+    }
 }
