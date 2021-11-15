@@ -28,6 +28,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using UnityEngine;
 
 public class Launcher : MonoBehaviour
@@ -54,6 +55,10 @@ public class Launcher : MonoBehaviour
     private float startTime = 0f;
     private int powerIndex;
 
+    private SpringJoint2D springJoint;
+    private Rigidbody2D rb;
+    private float force = 0f;
+    public float maxforec = 90f;
     void Start()
     {
         // zoom animation object
@@ -66,6 +71,10 @@ public class Launcher : MonoBehaviour
         sounds = GameObject.Find("SoundObjects").GetComponent<SoundController>();
         pullSound = sounds.pulldown;
         shootSound = sounds.zonar;
+
+        springJoint = GetComponent<SpringJoint2D>();
+        springJoint.distance = 1f;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -96,6 +105,7 @@ public class Launcher : MonoBehaviour
             if (isKeyPress == false && isTouched == false && startTime != 0f)
             {
                 // #1
+                force = powerIndex * maxforec;
 
                 shootSound.Play();
                 // reset values & animation
@@ -126,6 +136,22 @@ public class Launcher : MonoBehaviour
             {
                 efxLightRenderer.sprite = efxLightAniController.spriteSet[1];
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (force != 0)
+        {
+            springJoint.distance = 1f;
+            rb.AddForce((Vector3.up*force));
+            force = 0;
+        }
+
+        if (pressTime != 0)
+        {
+            springJoint.distance = 0.8f;
+            rb.AddForce(Vector3.down * 400);
         }
     }
 }
