@@ -61,6 +61,7 @@ public class Launcher : MonoBehaviour
     public float maxforec = 90f;
     void Start()
     {
+        // print("powerIndex is " + powerIndex);
         // zoom animation object
         efxZoomAniController = efxZoomObj.GetComponent<AnimateController>();
         efxLightAniController = efxLightObj.GetComponent<AnimateController>();
@@ -114,6 +115,7 @@ public class Launcher : MonoBehaviour
                 efxLightRenderer.sprite = efxLightAniController.spriteSet[1];
                 while (powerIndex >= 0)
                 {
+                    print(powerIndex);
                     efxZoomRenderer.sprite = efxZoomAniController.spriteSet[powerIndex];
                     powerIndex--;
                 }

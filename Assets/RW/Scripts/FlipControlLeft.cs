@@ -36,9 +36,15 @@ public class FlipControlLeft : MonoBehaviour
     public bool isTouched = false;
     private SoundController sound;
 
+    public float speed = 0f;
+    private HingeJoint2D hingeJoint2D;
+    private JointMotor2D jointMotor;
+
     void Start()
     {
         sound = GameObject.Find("SoundObjects").GetComponent<SoundController>();
+        hingeJoint2D = GetComponent<HingeJoint2D>();
+        jointMotor = hingeJoint2D.motor;
     }
 
     void Update()
@@ -59,6 +65,14 @@ public class FlipControlLeft : MonoBehaviour
         if (isKeyPress == true && isTouched == false || isKeyPress == false && isTouched == true)
         {
             sound.flipLeft.Play();
+
+            jointMotor.motorSpeed = -speed;
+            hingeJoint2D.motor = jointMotor;
+        }
+        else
+        {
+            jointMotor.motorSpeed = speed;
+            hingeJoint2D.motor = jointMotor;
         }
     }
 }
